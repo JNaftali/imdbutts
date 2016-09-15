@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
 }
@@ -21,4 +25,44 @@
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+.search-results-ul {
+  list-style: none;
+}
+
+.search-result-li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.search-result-li h3 {
+  flex: 5;
+  -webkit-flex: 5;
+}
+
+.search-result-poster {
+  flex: 1;
+  -webkit-flex: 1;
+}
+
+.search-result-poster img {
+  width: 100%;
+  height: auto;
+}
+
+.open-details-drawer {
+  animation: 0.5s linear open_drawer;
+}
+
+.close-details-drawer {
+  animation: 0.5s linear close_drawer;
+}
+
+@keyframes open_drawer {
+  from {height: 0} to  {height: 150px}
+}
+@keyframes close_drawer {
+  from {height: 150px} to  {height: 0}
 }

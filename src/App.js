@@ -1,27 +1,40 @@
 import React, { Component } from 'react'
 import SearchBar from './SearchBar'
+import SearchResults from './SearchResults'
 import './App.css'
 
 class App extends Component {
   constructor() {
     super()
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleChange = this.handleChange.bind(this)
+    this.submitSearchBar = this.submitSearchBar.bind(this)
+    this.typeInSearchBar = this.typeInSearchBar.bind(this)
+    this.clickSearchResult = this.clickSearchResult.bind(this)
+    this.state = {
+      queryString: "wolf",
+      response: []
+    }
   }
 
-  handleChange(e) {
+  componentDidMount() {
+    fetch(`http://www.omdbapi.com/?s=${this.state.queryString}&r=json`)
+      .then((response) => response.json())
+      .then((json)=> this.setState({response: json.Search}))
+  }
+
+  typeInSearchBar(e) {
     this.setState({queryString: e.target.value})
   }
 
-  apiQuery() {
-    return
+  submitSearchBar(e) {
+    e.preventDefault()
+    fetch(`http://www.omdbapi.com/?s=${this.state.queryString}&r=json`)
+      .then((response) => response.json())
+      .then((json)=> this.setState({response: json.Search}))
   }
 
-  handleSubmit(e) {
+  clickSearchResult(e) {
     e.preventDefault()
-    fetch(`http://www.omdbapi.com/?t=${this.state.queryString}&plot=short&r=json`)
-      .then((response) => response.json())
-      .then((json)=> this.setState({response: json}))
+    console.log(e.currentTarget.href)
   }
 
   render() {
@@ -29,8 +42,9 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <h2>Welcome to IMDButts</h2>
-          <SearchBar handleSubmit={this.handleSubmit} handleChange={this.handleChange}/>
+          <SearchBar handleSubmit={this.submitSearchBar} handleChange={this.typeInSearchBar}/>
         </div>
+        <SearchResults results={this.state.response} handleClick={this.clickSearchResult} />
       </div>
     )
   }
